@@ -1,0 +1,40 @@
+
+<h3>{{title}}</h3>
+<hr>
+<form method="POST" action="/notes/save">
+{{#if docreate}}
+ <input type="hidden" name="docreate" value="create">
+{{else}}
+<input type="hidden" name="docreate" value="update">
+{{/if}}
+
+
+  <div class="form-group">
+
+    <!-- >Eger docreate flag true ise demekki yeni bir note yaratiliyor </-->
+    <!-- >Bu yuzden key inputunu girebilmeleri icin gozukur hale getirdik </-->
+     {{#if docreate}}
+    <label for="exampleInputKey">Key</label>
+    <input type="text" id="exampleInputKey" class="form-control" placeholder="Enter key" name="notekey" value="" >
+   
+    {{else}}
+    <!-- >Eger docreate flag false ise demekki var olan guncelleniyor</-->
+    <!-- >Var olan guncellenecegi icin guncellenecek olan yani backend de params dan gelen idyi keyi save yapmak icin tekrar backende yolluyoruz hidden seklinde  </-->
+        {{#if note}} {{notekey}} {{/if}}
+        <input type="hidden" id="exampleInputKey" class="form-control" name="notekey" value='{{#if note}}{{notekey}}{{/if}}'>
+    {{/if}}
+    
+  </div>
+  <div class="form-group">
+    <label for="exampleInputTitle">Title</label>
+    <input type="text" name="title" class="form-control" id="exampleInputTitle" placeholder="Enter title" value='{{#if note}}{{note.title}}{{/if}}'>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlDescription">Description</label>
+    <textarea name="body" class="form-control" id="exampleFormControlDescription" rows="3">{{#if note}}{{note.body}}{{/if}}</textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+   <button type="button" class="btn btn-danger">
+        <a class="text-white" href="/" style="text-decoration:none">Cancel</a>
+    </button>
+</form>

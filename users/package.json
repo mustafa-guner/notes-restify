@@ -1,0 +1,27 @@
+{
+  "name": "user-auth-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "user-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env DEBUG=users:* PORT=5858 SEQUELIZE_CONNECT=sequelize-sqlite.yaml nodemon user-server.js"
+  },
+  "author": "Mustafa Guner",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^5.1.0",
+    "cross-env": "^7.0.3",
+    "debug": "^4.1.1",
+    "dotenv": "^10.0.0",
+    "fs-extra": "^9.1.0",
+    "js-yaml": "^3.14.1",
+    "restify": "^8.5.1",
+    "restify-clients": "^2.6.9",
+    "sequelize": "^6.7.0",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}

@@ -1,0 +1,26 @@
+
+<div class="pl-1">
+ Results found: <span class="text-black-50">{{notelist.length}}</span>
+</div>
+
+<hr>
+<div class="row">
+   {{#each notelist}}
+   <div class="col-4 ">
+      <div class="card h-100">
+         <div class="card-header bg-dark text-white">
+            <div class="card-title text-center font-weight-bold ">
+               {{title}}
+            </div>
+         </div>
+         <div class="card-body ">
+            {{body}}
+         </div>
+         <div class="card-footer">
+             <a class="btn btn-lg btn-block btn-outline-dark" href="/notes/view?key={{key}}">See details</a>
+         </div>
+      </div>
+   </div>
+   {{/each}}
+  
+</div>

@@ -1,0 +1,107 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const app = require("../app");
+const DEBUG = require("debug");
+const http = require("http");
+const util = require("util");
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
+
+//Defining DEBUGS
+const debug = DEBUG("notes:server"); //Generate debuggings traces if enabled
+const debugerror = DEBUG("notes:error"); //
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
+
+server.on("request", (req, res) => {
+  debug(`${new Date().toISOString()} request ${req.method} - ${req.url}`);
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(app.get("port"), () => console.log(`Server listens on ${port}`));
+server.on("error", onError);
+server.on("listening", onListening);
+
+//Capturing uncaught exceptions and unhandled rejected promises
+//DEBBUGING FOR THE UNDHANDLED ERRORS IN WHOLE APP TO DETAILS THE ERROR
+process.on("uncaughtException", (err) => {
+  console.log(`I have crashed!!! - ${err.stack || err}`);
+}); // error means thrown but was not caught by a try/catch block
+
+process.on("unhandledRejection", (source, err) => {
+  console.log(
+    `Unhandled Rejection at: ${util.inspect(err)} - source of error: ${source}`
+  ); //means a Promise endend in the reject state but there was no catch handler.
+});
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+//Checks the port if its number or string. If you declare your port by your self no need fof the function
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
+}
